@@ -36,11 +36,19 @@ grad = zeros(size(theta));
 %           grad = grad + YOUR_CODE_HERE (using the temp variable)
 %
 
+%Normal cost function
+J= - 1/m  * (log (sigmoid(X * theta))' * y + log (1 - sigmoid(X*theta))' * (1 - y));
+grad = 1/m .* (X' * (sigmoid(X*theta) - y));
 
+% Taken from user jcgillespie, for regularization
+% Deal with the theta(1) term
+thetaFiltered = [0; theta(2:end)];
 
+% J is the the non-regularized cost plus regularization
+J = J + ((lambda / (2*m)) * (thetaFiltered' * thetaFiltered));
 
-
-
+% grad is the non-regularized cost plus regularization.
+grad = grad + ((lambda / m) * thetaFiltered);
 
 
 
